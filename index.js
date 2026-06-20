@@ -32,9 +32,10 @@ try{
   }).returning();
   res.status(201).json({
     message: 'captions created succesfully hav a nice journey',
-    data: newcaption
+    data: newcaption[0]
   })
 }catch(error){
+  console.log(error);
   res.status(400).json({
     error: ' some error occured please check again',
   })
