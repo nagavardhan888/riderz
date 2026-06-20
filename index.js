@@ -9,7 +9,7 @@ app.use(express.json());
 app.get('/',(req,res)=>{
   res.send("tthe main page is here welcome ")
 })
-app.get('/costumer' , async(req,res)=>{
+app.get('/captions' , async(req,res)=>{
     try {
     const allUsers = await db.select().from(users);
     res.json(allUsers);
@@ -18,6 +18,11 @@ app.get('/costumer' , async(req,res)=>{
     res.status(500).json({ error: 'Database error occurred' });
   }
 })
+
+app.post('/captions', async(req,res)=>{
+  
+    
+});
 
 app.listen(port, ()=>{
     console.log(`Server is running on port ${port}`);
