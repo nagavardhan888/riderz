@@ -6,6 +6,9 @@ const app = express();
 const port = 3000;
 app.use(express.json());
 
+app.get('/',(req,res)=>{
+  res.send("tthe main page is here welcome ")
+})
 app.get('/costumer' , async(req,res)=>{
     try {
     const allUsers = await db.select().from(users);
