@@ -1,18 +1,19 @@
 import express from 'express';
 import {db} from './db/index.js';
-import {users} from './db/schema.js';
+import {captionSchema} from './models/caption.schema.js';
 
 const app = express();
 const port = 3000;
 app.use(express.json());
+
 
 app.get('/',(req,res)=>{
   res.send("tthe main page is here welcome ")
 })
 app.get('/captions' , async(req,res)=>{
     try {
-    const allUsers = await db.select().from(users);
-    res.json(allUsers);
+    const allcaptions = await db.select().from(captionSchema);
+    res.json(allcaptions);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Database error occurred' });
@@ -20,8 +21,24 @@ app.get('/captions' , async(req,res)=>{
 })
 
 app.post('/captions', async(req,res)=>{
-  
-    
+try{ 
+  const {name,phone,vehicleType,numberPlate,status} = req.body;
+  const newcaption = await db.insert(captionSchema).values({
+   name,
+   phone,
+   vehicleType,
+   numberPlate,
+   status
+  })
+  res.status(201).json({
+    message: 'captions created succesfully hav a nice journey',
+    data: newcaption
+  })
+}catch(error){
+  res.status(400).json({
+    error: ' some error occured please check again',
+  })
+}
 });
 
 app.listen(port, ()=>{
