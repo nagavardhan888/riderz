@@ -5,7 +5,7 @@ import {uuid, pgTable, serial, boolean, text, timestamp } from 'drizzle-orm/pg-c
    phone:text('phone').notNull().unique(),
    vehicleType:text('vehicle_type').notNull(),
    numberPlate:text('number_plate').notNull().unique(),
-   status:boolean('status').default(false),
+   status:text('status').notNull(),
     createdAt: timestamp('created_at').defaultNow(),
 
 })
