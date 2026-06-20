@@ -29,7 +29,7 @@ try{
    vehicleType,
    numberPlate,
    status
-  })
+  }).returning();
   res.status(201).json({
     message: 'captions created succesfully hav a nice journey',
     data: newcaption
