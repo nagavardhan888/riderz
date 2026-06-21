@@ -1,8 +1,10 @@
-import {captionSchema} from './caption.schema.js';
+import {captainSchema} from './captain.schema.js';
 import {costumerSchema } from './customer.schema.js';
 
 export
  {
-    captionSchema, 
+    captainSchema, 
     costumerSchema 
 }
+
+

@@ -1,5 +1,5 @@
 import {uuid, pgTable, serial, boolean, text, timestamp } from 'drizzle-orm/pg-core';
- const captionSchema = pgTable('captions',{
+ const captainSchema = pgTable('captains',{
    id: uuid('id').primaryKey().defaultRandom(),
    name:text('name').notNull(),
    phone:text('phone').notNull().unique(),
@@ -9,4 +9,4 @@ import {uuid, pgTable, serial, boolean, text, timestamp } from 'drizzle-orm/pg-c
     createdAt: timestamp('created_at').defaultNow(),
 
 })
-export {captionSchema};
+export {captainSchema};
