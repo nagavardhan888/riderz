@@ -1,5 +1,6 @@
 import express from 'express';
 import {db} from './db/index.js';
+import {eq} from 'drizzle-orm'; 
 import {captionSchema} from './models/caption.schema.js';
 
 const app = express();
@@ -41,6 +42,23 @@ try{
   })
 }
 });
+
+app.get("/captions/:id" , async(req,res)=>{
+  try{
+  const {id} = req.params;
+  const findcaption = await db.select().from(captionSchema).where(eq(captionSchema.id, id));
+  res.status(200).json({
+    message: ' here are the caption details',
+    data: findcaption[0]
+  })
+}
+catch(error){
+     res.status(404).json({
+      error: 'caption not found'
+     })
+}
+})
+
 
 app.listen(port, ()=>{
     console.log(`Server is running on port ${port}`);
