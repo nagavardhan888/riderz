@@ -8,16 +8,6 @@ const app = express();
 const port = 3000;
 app.use(express.json());
 
-// Add this right after express.json()
-app.use((err, req, res, next) => {
-  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-    console.error("Intercepted malformed JSON payload:", err.message);
-    return res.status(400).json({ 
-      error: "Malformed JSON payload. Please ensure you are sending valid JSON without extra wrapping quotes." 
-    });
-  }
-  next();
-});
 
 app.get('/',(req,res)=>{
   res.send("tthe main page is here welcome ")
@@ -69,6 +59,31 @@ catch(error){
      })
 }
 })
+
+app.delete('/captains/:id', async(req,res)=>{
+  try{ 
+  const {id} = req.params;
+  const deletecaptain = await db.delete(captainSchema).where(eq(captainSchema.id,id)).returning();
+  if(deletecaptain.length == 0){
+    res.status(404).json({
+      error:"please select the caption"
+    })
+  }
+      res.status(200).json({
+    message:"captain successfully deleted",
+    data:deletecaptain[0]
+  })
+}
+catch (error) {
+    console.error("Delete Error:", error); // Logs the actual error to your terminal for debugging
+    return res.status(500).json({
+      error: "Something went wrong"
+    });
+  }
+})
+
+
+
 app.get('/customers', async(req,res)=>{
   try{
    const customers = await db.select().from(costumerSchema);
@@ -105,6 +120,27 @@ app.post('/customers', async(req,res)=>{
     })
   }
 
+})
+
+app.get('/customers/:id', async(req,res)=>{
+    try{ 
+  const {id} = req.params;
+  const constumer = await db.select().from(costumerSchema).where(eq(costumerSchema.id,id))
+ if (constumer.length === 0) {
+      return res.status(404).json({ // Tip: 404 is the standard status code for "Not Found"
+        error: "the customer is not found please try again"
+      });
+    }
+    return res.status(200).json({
+      message:"fetched the costumer successfully",
+      data:constumer[0],
+    })
+  
+}catch(error){
+ return res.status(500).json({
+    error:"server was busy please wait and try agian"
+  })
+}
 })
 
 app.listen(port, ()=>{
