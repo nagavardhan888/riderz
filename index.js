@@ -82,7 +82,24 @@ catch (error) {
   }
 })
 
-
+app.get('/captains/:id/customers' ,async(req,res)=>{
+  const {id} = req.params;
+  try{
+     const captain = await db.select().from(captainSchema).where(eq(captainSchema.id ,id))
+     const allcustomers = await db.select().from(costumerSchema).where(eq(costumerSchema.captainId,id));
+     res.status(201).json({
+      message:`these are the details of the captain`,
+      captain:captain,
+      data:allcustomers
+     })
+  }
+  catch(error){
+    res.status(404).json({
+      error:"the page was getting error please wait and try again"
+    })
+  }
+ 
+})
 
 app.get('/customers', async(req,res)=>{
   try{
