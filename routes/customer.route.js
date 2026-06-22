@@ -82,4 +82,18 @@ router.put('/:id', async(req,res)=>{
   }
 })
 
+router.delete('/:id' ,async(req,res)=>{
+    const {id} = req.params;
+    const deletecustomer = await db.delete(costumerSchema).where(eq(costumerSchema.id,id))
+    if(deletecustomer.length == 0){
+      res.status(500).json({
+        error:"please enter the correct id"
+      })
+
+    return res.status(200).json({
+        message:"the costumer details are deleted successfully",
+        data:deletecustomer[0]
+    })
+    }
+})
 export default router;
